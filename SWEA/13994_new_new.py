@@ -1,0 +1,1 @@
+# 리스트 만들고 counting sorts에서 쓰는 것처럼 버스 정류장 number 숫자 세기

@@ -24,12 +24,12 @@ for i in range(T):
             else:
                 bus += list(range((A//4 +1)* 4, B+1, 4))
 
+        print(bus)
+    # count = 0
+    # for k in range(len(bus)):
+    #     if count < bus.count(bus[k]):
+    #         count = bus.count(bus[k])
 
-    count = 0
-    for k in range(len(bus)):
-        if count < bus.count(bus[k]):
-            count = bus.count(bus[k])
-
-    print(f'#{i+1} {count}')
+    # print(f'#{i+1} {count}')
 
 # # print(bus)
