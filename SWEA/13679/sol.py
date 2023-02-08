@@ -11,4 +11,4 @@ for tc in range(T):
 
     for i in range(0, N-M+1):
         for j in range(0, N-M+1):
-            for k in range(0, M):
+
