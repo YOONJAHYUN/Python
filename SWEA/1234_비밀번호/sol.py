@@ -3,10 +3,10 @@ import sys
 sys.stdin = open('input.txt')
 
 for tc in range(1, 11):
-    n, number = map(int, input().split())
+    n, number = input().split()
     numbers = []
+    n = int(n)
 
-    number = str(number)
     numbers.extend(number)
     i = 1
 
@@ -20,4 +20,4 @@ for tc in range(1, 11):
             i += 1
 
 
-    print(''.join(numbers))
+    print(f'#{tc}', ''.join(numbers))
