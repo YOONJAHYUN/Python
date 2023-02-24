@@ -2,42 +2,26 @@ import sys
 
 sys.stdin = open('input.txt')
 
-def room_route(x, y):
-    global cnt, check, start
+def room_route(i, j):
+    q = []
+    alst = []
 
-    if rooms[y][x] == N * N:
-        result.append(cnt)
-        return
+    q.append((i, j))# [1] 초기데이터 삽입
+    visited[i][j] = 1
+    alst.append(rooms[i][j])
 
-    for k in range(4):
-        nx = x + dx[k]
-        ny = y + dy[k]
+    while q:
+        ci, cj = q.pop(0)
 
-        if 0 <= nx < N and 0 <= ny < N:
-            if rooms[ny][nx] == rooms[y][x] + 1:
-                x = nx
-                y = ny
+        for di, dj in ((-1, 0), (1, 0), (0, 1), (0, -1)):
+            ni, nj = ci+di, cj+dj
 
-                cnt += 1
-                check[rooms[ny][nx]] = True
+            if 0 <= ni < N and 0 <= nj < N and visited[ni][nj] == 0 and abs(rooms[ci][cj]-rooms[ni][nj]) == 1:
+                q.append((ni, nj))
+                visited[ni][nj] = 1
+                alst.append(rooms[ni][nj])
 
-                room_route(x, y)
-
-    else:
-
-        for idx in range(1+N*N):
-            if check[idx] == False:
-                for i in range(N):
-                    for j in range(N):
-                        if rooms[i][j] == idx:
-                            x, y = j, i
-                            check[rooms[y][x]] = True
-                            result.append(cnt)
-                            cnt = 1
-                            start.append(rooms[y][x])
-
-                            room_route(x, y)
-                            return
+    return min(alst), len(alst)
 
 T = int(input())
 
@@ -45,24 +29,16 @@ for tc in range(1, T+1):
     N = int(input())
 
     rooms = [list(map(int, input().split())) for _ in range(N)]
+    visited = [[0] * N for _ in range(N)]
 
-    dx = [0, 0, -1, 1]
-    dy = [1, -1, 0, 0]
-
-    check = [False for _ in range(N*N+1)]
-    cnt = 1
-    result = []
-    start = []
+    ans, cnt = N*N, 0
 
     for i in range(N):
         for j in range(N):
-            if rooms[i][j] == 1:
-                x, y = j, i
-                break
-    check[1] = True
-    start.append(rooms[y][x])
-    room_route(x, y)
+            if visited[i][j] == 0:
+                t, tcnt = room_route(i, j)
 
-    print('result', result)
-    print('start', start)
-    print('##################')
+                if cnt < tcnt or (cnt == tcnt and ans > t):
+                    ans, cnt = t, tcnt
+
+    print(f'#{tc}', ans, cnt)

@@ -24,6 +24,8 @@ def paper_cut(x, y, n):
                 cnt_b += 1
             elif paper[i][j] == 1:
                 cnt_c += 1
+            if (cnt_a > 0 and cnt_b > 0) or (cnt_b > 0 and cnt_c > 0) or (cnt_a > 0 and cnt_c > 0):
+                break
 
     if cnt_a == n**2:
         color_a += 1
