@@ -15,14 +15,15 @@ for _ in range(5):
                 if bing_go[i][j] == number:
                     bing_go[i][j] = 0
                     cnt += 1
+                    break
 
         # 대각선 빙고
-        daegak1 =0
+        daegak1 = 0
         daegak2 = 0
         for i in range(5):
             if bing_go[i][i] == 0:
                 daegak1 += 1
-            if bing_go[4-i][i] == 0:
+            if bing_go[i][4-i] == 0:
                 daegak2 += 1
 
         if daegak1 == 5:
@@ -37,29 +38,35 @@ for _ in range(5):
                 bing += 1
 
         # 세로 빙고
-        sero = 0
         for j in range(5):
+            sero = 0
             for i in range(5):
                 if bing_go[i][j] == 0:
                     sero += 1
             if sero == 5:
                 bing += 1
 
-        if bing >= 3:
+
+        if bing < 3:
+            bing = 0
+
+        else:
             print(cnt)
             break
-        else:
-            bing = 0
-'''
-14 12 5 11 13 
-9 4 3 8 25 
-18 15 19 24 20 
-1 6 7 23 17 
-22 16 10 2 21 
+    if bing >= 3:
+        break
 
-17 11 9 24 6 
-23 1 2 15 12 
-8 14 21 10 16 
-3 22 18 13 25 
-4 5 19 7 20
+'''
+1 2 3 4 5
+6 7 8 9 10
+11 12 13 14 15
+16 17 18 19 20
+21 22 23 24 25
+6 7 8 9 10
+3 13 18 23 5
+17 21 1 2 4
+11 12 14 15 16
+19 20 22 24 25
+
+ans 12
 '''
