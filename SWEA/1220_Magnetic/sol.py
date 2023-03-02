@@ -1,43 +1,49 @@
 import sys
-# sys.stdin = open('input.txt')
+sys.stdin = open('input.txt')
 
-for tc in range(1, 2):
+for tc in range(1, 11):
     # n 정사각형 테이블의 한 변의 길이
     n = int(input())
-    data = [list(map(int, input().split())) for _ in range(7)]
+    data = [list(map(int, input().split())) for _ in range(100)]
 
     # 1은 N극 2는 S극
     # N과 S를 세로 단위로 따로 모은다.
-    table = [[] for _ in range(7)]
+    table = [[] for _ in range(100)]
 
-    for j in range(7):
-        for i in range(7):
-            if data[i][j] != 0:
-                table[j].append(data[i][j])
-    # print(table)
+    for i in range(100):        # 세로
+        for j in range(100):    # 가로
+            if data[99-i][j] != 0:
+                table[j].append(data[99-i][j])
+
     cnt = 0
 
-    for i in range(7):
-        N_count = 0
-        S_count = 0
+    for i in range(100):
         while True:
-            if table[i] and table[i][0] == 2:
+            if table[i] and table[i][0] == 1:
                 table[i].pop(0)
 
-            if table[i] and table[i][-1] == 1:
+            if table[i] and table[i][-1] == 2:
                 table[i].pop()
 
             if not table[i]:
                 break
 
-            if len(table[i])>=2 and table[i][0] == 1 and table[i][-1] == 2:
-                # print(table[i])
+            if len(table[i])>=2 and table[i][0] == 2 and table[i][-1] == 1:
 
-                N_count += table[i].count(1)
-                S_count += table[i].count(2)
-                print(i, table[i])
+                lst = []
+                for i in table[i]:
+                    if i == 1:
+                        if lst and lst[-1] == 2:
+                            cnt += 1
+                            lst.append(i)
+                        else:
+                            lst.append(i)
+                    else:
+                        lst.append(i)
+
+                # print(i, table[i])
                 break
-        cnt += min(N_count, S_count)
+
     print(f'#{tc}', cnt)
 
 
