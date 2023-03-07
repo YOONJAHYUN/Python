@@ -1,9 +1,7 @@
 import sys
 input = sys.stdin.readline
 
-
-
-
+# dp
 N = int(input())
 
 result = 0
