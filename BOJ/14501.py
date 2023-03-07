@@ -1,37 +1,35 @@
 import sys
 input = sys.stdin.readline
-sys.setrecursionlimit(10**6)
 
-def many_money(idx, a):
-    # global money
-    money = 0
-    while True:
-
-        if 0 <= idx+data[idx][0] <= N:
-            money += data[idx][1]
-            for i in range(data[idx][0]):
-                consult[idx+1] = idx + 1
-
-        if idx >= N:
-            idx = 0
-            break
-
-        idx = idx + data[idx][0]
-    money_zip.append(money)
-    idx += a
-    many_money(idx, a+1)
 
 
 
 N = int(input())
 
-consult = [0] * (N+1)
-# print(consult)
-money = 0
+result = 0
 data = [list(map(int, input().split())) for _ in range(N)]
-money_zip = []
 
-# idx = 0
+idx = 0
+while idx <= N:
+    consult = [0] * (N + 1)
 
-many_money(0, 0)
-print(money_zip)
+    money_zip = 0
+    for i in range(idx, N):
+        days, money = data[i]
+        # print(days, money)
+        if not consult[i+1]:
+            for day in range(i+1, i+days+1):
+
+                if 0 < i+1 <= N+1 and 0 < i+days+1 <= N+1:
+                    consult[day] = i+1
+
+    for i in range(1, N+1):
+        if i in set(consult):
+            money_zip += data[i-1][1]
+    result = max(result, money_zip)
+
+    idx += 1
+
+
+print(consult)
+print(result)
