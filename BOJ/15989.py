@@ -3,22 +3,16 @@ input = sys.stdin.readline
 
 T = int(input())
 
+dp = [1] * 10001
+
+for i in range(2, 10001):
+
+    dp[i] += dp[i - 2]
+
+for i in range(3, 10001):
+    dp[i] += dp[i-3]
+
+
 for _ in range(T):
     n = int(input())
-
-
-
-
-    dp = [0, 1, 2, 3, 4, 5, 7, 8]
-    if n > 6:
-        for i in range(8, n+1):
-            if i % 3 == 2:
-                dp.append(dp[-1]+1)
-            elif i%3 == 0:
-                dp.append(dp[-1]+2)
-            else:
-                dp.append(dp[-1]+3)
-
-
-
     print(dp[n])
