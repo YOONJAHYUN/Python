@@ -21,41 +21,21 @@ print(numbers)
 N = len(numbers)
 # 전위순회한 값을 다시 원래 트리로 만들어주자.
 tree = [0]*(N+1)
+tree[1] = numbers[1]
+idx = 1
 
-for i in range(1, N//2+1):
-    # 부모보다 작다면 왼쪽에
-    # 부모j
-    j = i//2
+left = []
+right = []
 
-    while numbers[i] < numbers[j]:
-        numbers[j*2]
-
-
-    # if numbers[i] < tree[j]:
-    #     # 아직 없다면
-    #     if not tree[j*2]:
-    #         tree[j*2] = numbers[i]
-    #     # 만약 있다면
-    #     else:
-    #         if tree[j*2] > numbers[i]:
-    #             tree[j*2*2] = numbers[i]
-    #         else:
-    #             tree[j*2*2+1] = numbers[i]
-    #
-    # # 부모보다 크다면 오른쪽에
-    # else:
-    #     if not tree[j * 2+1]:
-    #         tree[j * 2+1] = numbers[i]
-    #     # 만약 있다면
-    #     else:
-    #         if tree[j * 2+1] > numbers[i]:
-    #             tree[(j * 2+1) * 2] = numbers[i]
-    #         else:
-    #             tree[j * 2 * 2 + 1] = numbers[i]
+for i in range(2, N):
+    if tree[1] < numbers[i]:
+        right.append(numbers[i])
+    else:
+        left.append(numbers[i])
 
 
-
-print(numbers)
+print(right)
+print(left)
 
 '''
 [0, 50, 30, 24, 5, 28, 45, 98, 52, 60]
