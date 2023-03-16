@@ -17,6 +17,4 @@ for i in range(N):
         if 0 <= i + data[i][j] < N:
             jump[i + data[i][j]][j] += jump[i][j]
 
-# for i in jump:
-#     print(i)
 print(jump[-1][-1])
