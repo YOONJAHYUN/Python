@@ -3,15 +3,15 @@ import sys
 sys.stdin = open('input.txt')
 
 
-def suwan(start, end):
-    global arr, data
+def suwan(start, end, or_arr, data):
 
     if start == end:
         return
+    # arr = [[[0, 0] for _ in range(N)] for _ in range(N)]
 
-    for i in arr:
-        print(*i)
-    print('####' * 20)
+    # for i in arr:
+    #     print(*i)
+    # print('####' * 20)
 
     new_data = []
     # data에 저장된 좌표를 꺼낸다.
@@ -20,12 +20,12 @@ def suwan(start, end):
         y, x = data.pop(0)
 
         print(y, x)
-        num, move = arr[y][x]
+        num, move = or_arr[y][x]
 
         # move가 상(1)이라면
         if move == 1:
             # 옮기기전에 원래 자리를 0 으로 만든다.
-            arr[y][x] = [0, 0]
+            # arr[y][x] = [0, 0]
 
             # y를 한 칸 옮긴다.
             y -= 1
@@ -232,9 +232,8 @@ def suwan(start, end):
 
         new_data.append([y,x])
 
-    data = new_data
 
-    suwan(start+1, end)
+    suwan(start+1, end,arr, new_data)
 
 
 T = int(input())
@@ -243,21 +242,21 @@ for tc in range(1, T + 1):
 
     # N 셀의 개수, M 격리기간, K 미생물 군집의 개수
     N, M, K = map(int, input().split())
-    arr = [[[0, 0] for _ in range(N)] for _ in range(N)]
+    ori_arr = [[[0, 0] for _ in range(N)] for _ in range(N)]
     # for i in arr:
     #     print(i)
-    data = []
+    ori_data = []
     # print(arr)
 
     # 세로위치, 가로위치, 미생물 수 , 이동방향(상 1 하 2 좌 3 우 4)
     for _ in range(K):
         y, x, num, move = map(int, input().split())
-        arr[y][x] = [num, move]
-        data.append([y, x])
+        ori_arr[y][x] = [num, move]
+        ori_data.append([y, x])
 
-    suwan(0, M)
+    suwan(0, M, ori_arr, ori_data)
     print('@@'*100)
-    print(data)
+    print(ori_data)
 
     # for i in arr:
     #     print(*i)
