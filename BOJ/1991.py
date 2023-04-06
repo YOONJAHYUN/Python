@@ -2,45 +2,47 @@ import sys
 
 input = sys.stdin.readline
 
+def preorder(node):
+    if node != '.':
+        # 전위 순회기 떄문에
+        # 내가 할일 먼저 한다.
+        # 지금 문제에서 할일은? 나를 출력
+        print(node, end='')
+        # 왼쪽 자식을 조사
+        preorder(tree[node][0])
+        # 오른쪽 자식을 조사
+        preorder(tree[node][1])
+
+def inorder(node):
+    if node != '.':
+
+        # 왼쪽 자식을 조사
+        inorder(tree[node][0])
+        # 중위 순회
+        print(node, end='')
+        # 오른쪽 자식을 조사
+        inorder(tree[node][1])
+
+def postorder(node):
+    if node != '.':
+
+        # 왼쪽 자식을 조사
+        postorder(tree[node][0])
+        # 오른쪽 자식을 조사
+        postorder(tree[node][1])
+        # 후위 순회
+        print(node, end='')
+
+
 N = int(input())
-tree = [0 for _ in range(27)]
+tree = {}
 
 for i in range(1,N+1):
     root, left, right = input().split()
-    print(root, left, right)
-    # tree만들기
-    if root == 'A':
+    tree[root] = [left, right]
 
-        tree[i] = root
-        if left != '.':
-            tree[i*2] = left
-        if right != '.':
-            tree[i*2+1] = right
-    else:
-        idx = tree.index(root)
-        if left != '.':
-            tree[idx*2] = left
-        if right != '.':
-            tree[idx*2+1] = right
-
-print(tree)
-
-# 전위 순회
-for char in tree:
-    if char != 0:
-        print(char, end='')
+preorder('A')
 print()
-
-# 중위 순회
-# 가장 왼쪽 아래 구하기
-last_left = 16
-while last_left > 1:
-
-    if not tree[last_left]:
-        last_left //= 2
-    else:
-        break
-print(last_left)
-
-
-
+inorder('A')
+print()
+postorder('A')
