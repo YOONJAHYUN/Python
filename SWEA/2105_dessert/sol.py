@@ -4,9 +4,10 @@ sys.stdin = open('input.txt')
 direction = [(1, 1), (1, -1), (-1, -1), (-1, 1)]
 
 # 대각선으로 쭉 가다가 안되면 회전하기..!!!
-def dessert(y, x, ans):
+def dessert(y, x, ans,ans_y, ans_x):
     # ans = []
     # ans.append(data[y][x])
+
     y = y
     x = x
 
@@ -21,14 +22,18 @@ def dessert(y, x, ans):
             if (not (0 <= ny < N and 0 <= nx < N)) or (data[ny][nx] in ans):
                # y = ny - k[0]
                # x = nx - k[1]
-               return
+               break
 
             else:
                 cafe = data[ny][nx]
-                dessert(ny, nx, ans+[data[y][x]])
-                ans.append(cafe)
+
+                # ans.append(cafe)
                 mul += 1
-    return ans
+                dessert(ny, nx, ans+[data[y][x]], y, x)
+
+    if ans_x == x and ans_y == y:
+        print(ans)
+        return
 
 
 
@@ -42,7 +47,7 @@ for tc in range(1, T+1):
 
     # 대각선 방향으로 움직이고 사각형 모양을 그리며 출발한 카페로 돌아와야 한다.
     # 일단 다 구한다... 그리고 중간에 백트래킹
-    dessert(0, 1, [])
+    dessert(0, 1, [], 0, 1)
     # print(dessert(0, 1))
     # print(dessert(0, 2))
     # print(dessert(1, 1))
