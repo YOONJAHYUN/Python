@@ -29,8 +29,10 @@ def BFS(lst):
                 cnt = max(cnt, visited[ny][nx])
 
     for line in visited:
+    #     print(line)
+
         if -1 in line:
-            return -1
+            return
     else:
         return cnt
     # for i in range(N):
@@ -51,7 +53,8 @@ def location(depth, n, ans):
     global result
     if depth == n:
         if len(ans) == M:
-            result = min(result, BFS(ans))
+            if BFS(ans) != None:
+                result.append(BFS(ans))
             # print(BFS(ans))
         return
     #포함하는 경우
@@ -82,10 +85,13 @@ for i in range(N):
             wall.append((i,j))
 n = len(virus)
 
-result = M * 51
+result = []
 location(0, n, [])
+if result:
+    print(min(result))
+else:
+    print(-1)
 
-print(result)
 '''
 바이러스를 놓을 수 있는 칸 들 중에서 몇개를 선택할건지 고른다
 -> 순열
