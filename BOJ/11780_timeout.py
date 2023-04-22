@@ -1,6 +1,7 @@
 import sys
 input = sys.stdin.readline
 
+
 # 도시
 n = int(input())
 # 버스의 개수
