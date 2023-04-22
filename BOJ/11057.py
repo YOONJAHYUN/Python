@@ -1,21 +1,31 @@
-import sys
+# 1차원으로 만들기
+# 애초에 dp를 덮어씌우는 느낌으로다가
+N = int(input())
 
-input = sys.stdin.readline
+dp = [1] * 10
 
-n = int(input())
-arr = [[]*10 for _ in range(1001)]
+for i in range(N-1):
+    for j in range(10):
+        dp[j] = sum(dp[j:])
 
-for i in range(1, n+1):
-    if i == 1:
-        dp[i] = 10
+ans = sum(dp)
+print(ans%10007)
 
-    elif i == 2:
-        # 10 + 9 + 8 + 7 + 6 + 5 + 4 + 3 + 2 + 1
-        dp[i] = 55
 
-    elif i == 3:
-        # 55 + 45 + 36 +28 +21 + 15 + 10 +6 +3 + 1
-        dp[i] = 220
+# import sys
+#
+# input = sys.stdin.readline
+#
+# n = int(input())
+# dp = [[0]*10 for _ in range(n+1)]
+#
+# for i in range(10):
+#     dp[0][i] = 1
+#
+# for i in range(1, n+1):
+#     for j in range(10):
+#         dp[i][j] = sum(dp[i-1][j:10])
+#
+# print(dp[n][0]%10007)
 
-    else:
-        # 220 + 210 +
+
