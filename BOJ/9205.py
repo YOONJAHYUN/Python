@@ -1,24 +1,32 @@
 import sys
 input = sys.stdin.readline
 
-def check(s, e, beer):
-    sx, sy = s
-    ex, ey = e
+'''
+좌표갱신하면서 맥주남아잇으면 다음다음 그러다가 갱신
+그러다가 페스티벌이면 굿
 
-    if abs(sx-ex) + abs(sy-ey) <= 1000:
-        return "happy"
+'''
+def BFS(start):
+    global flag
+    sx, sy = start
+    if abs(sy-ey) + abs(sx-ex) <= 1000:
+        flag = True
+        return
 
     for i in range(n):
-        nx, ny = stores[i]
-
-        check(s,e,)
+        x, y = stores[i]
+        if abs(sy-y) + abs(sx-x) <= 1000 and not visited[i]:
+            visited[i] = True
+            BFS((x, y))
+            visited[i] = False
 
 
 t = int(input())
 
 for _ in range(t):
     n = int(input())
-
+    flag = False
+    # 집
     start = tuple(map(int, input().split()))
     stores = []
 
@@ -26,15 +34,14 @@ for _ in range(t):
     for _ in range(n):
         x, y = map(int, input().split())
         stores.append((x, y))
+    visited = [False for _ in range(n)]
 
+    # 페스티벌
+    ex, ey = map(int, input().split())
 
-    # 집, 페스티벌
-    end = tuple(map(int, input().split()))
+    BFS(start)
 
-    sx, sy = start
-    ex, ey = end
-
-    d = abs(sx-ex) + abs(sy-ey)
-    print(d//50)
-
-    check(start, end, 1000)
+    if flag:
+        print('happy')
+    else:
+        print('sad')
