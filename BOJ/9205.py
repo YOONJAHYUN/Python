@@ -1,25 +1,27 @@
 import sys
+from collections import deque
 input = sys.stdin.readline
 
-'''
-좌표갱신하면서 맥주남아잇으면 다음다음 그러다가 갱신
-그러다가 페스티벌이면 굿
 
-'''
-def BFS(start):
-    global flag
-    sx, sy = start
-    if abs(sy-ey) + abs(sx-ex) <= 1000:
-        flag = True
-        return
 
-    for i in range(n):
-        x, y = stores[i]
-        if abs(sy-y) + abs(sx-x) <= 1000 and not visited[i]:
-            visited[i] = True
-            BFS((x, y))
-            visited[i] = False
+def check(start):
+    q = deque()
+    q.append(start)
 
+    while q:
+        x, y = q.popleft()
+        if abs(y-ey) + abs(x-ex) <= 1000:
+            print('happy')
+            return
+
+        for i in range(n):
+            nx, ny = stores[i]
+            if abs(y-ny) + abs(x-nx) <= 1000 and not visited[i]:
+                visited[i] = True
+                q.append((nx, ny))
+
+    print('sad')
+    return
 
 t = int(input())
 
@@ -39,9 +41,4 @@ for _ in range(t):
     # 페스티벌
     ex, ey = map(int, input().split())
 
-    BFS(start)
-
-    if flag:
-        print('happy')
-    else:
-        print('sad')
+    check(start)
