@@ -2,7 +2,7 @@ import sys
 input = sys.stdin.readline
 
 def binary(lst, start, end):
-    
+
     global ans
 
     while start <= end:
