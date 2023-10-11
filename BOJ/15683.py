@@ -2,73 +2,64 @@ import sys
 from copy import deepcopy
 input = sys.stdin.readline
 
+def check(d, data):
+    global answer
 
-def CCTV(cctv, y, x, data):
-
-    new_room = deepcopy(data)
-    if cctv == 1:
-        for dy, dx in ((0, 1), (0, -1), (1, 0), (-1, 0)):
-            mul = 1
-            ny, nx = y + dy*mul, x + dx*mul
-
-            while True:
-                if 0 <= ny < n and 0 <= nx < m and new_room[ny][nx] == 0:
-                    new_room[ny][nx] = '#'
-                else:
-                    break
-            return new_room
-
-
-
-def check(depth, f, cnt):
-    global ans
-
-    if depth == f:
-        ans = max(cnt, ans)
+    if d == len(cctvs):
+        ans = 0
+        for i in range(n):
+            for j in range(m):
+                if data[i][j] == 0:
+                    ans += 1
+        answer = min(ans, answer)
         return
 
+    t, y, x = cctvs[d]
+    for lst in cctv_moving[t]:
+        data1 = deepcopy(data)
+        for dx, dy in lst:
+            mul = 1
 
-    for i in range(f):
-        cctv, y, x, = cctvs[i]
-        CCTV(cctv, y, x, room)
+            while True:
+                ny, nx = y+dy*mul, x+dx*mul
+
+                if 0 > ny or ny >= n or 0 > nx or nx >= m:
+                    break
+
+                if data1[ny][nx] == 6:
+                    break
+                elif data1[ny][nx] == 0:
+                    data1[ny][nx] = -1
+
+                mul += 1
+
+        check(d+1, data1)
 
 
-
-
-
-
-'''
-0 빈칸
-6 벽
-1~5 cctv
-
-사각 지대의 최소 크기 구하기
-'''
+# 세로 가로
 n, m = map(int, input().split())
 
-room = [list(map(int, input().split())) for _ in range(n)]
+data = [list(map(int, input().split())) for _ in range(n)]
 
-'''
-총 공간을 먼저 구한다. n*m 에다가 cctv 갯수와 벽을 뺌.
-cctv 별로 체크할 수 있는 부분을 표기
-1 : dx dy [1, -1, 0, 0], [0, 0, -1, 1]
-2 : 
-cctv 경우의 수만큼 함수 돌리기
-max 를 표기하고 백트래킹 형식으로 표기
-'''
+# x좌표 y좌표
+cctv_moving = {
+    1 : [[(1, 0)], [(-1, 0)], [(0, 1)], [(0, -1)]],
+    2 : [[(1, 0), (-1, 0)], [(0, 1), (0, -1)]],
+    3 : [[(1, 0), (0, -1)], [(0, -1), (-1, 0)], [(-1, 0), (0, 1)], [(0, 1), (1, 0)]],
+    4 : [[(1, 0), (0, -1), (-1, 0)], [(1, 0), (-1, 0), (0, 1)], [(1, 0), (0, 1), (0, -1)], [(-1, 0), (0, 1), (0, -1)]],
+    5 : [[(1, 0), (-1, 0), (0, 1), (0, -1)]]
+}
 
-total = n * m
 cctvs = []
-ans = 0
+answer = int(1e9)
 for i in range(n):
     for j in range(m):
-        if room[i][j] != 0:
-            # 벽인 경우
-            if room[i][j] == 6:
-                total -= 1
-            # cctv 인경우
-            else:
-                cctvs.append((room[i][j],i,j))
-                total -= 1
+        if data[i][j] not in [0, 6]:
+            cctvs.append((data[i][j],i,j))
 
-check(0, len(cctvs), 0)
+
+
+check(0, deepcopy(data))
+
+
+print(answer)
