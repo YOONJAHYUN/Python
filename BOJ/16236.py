@@ -1,51 +1,68 @@
 import sys
+# from collections import deque
+from heapq import heappop,heappush
 input = sys.stdin.readline
-from collections import deque
-
-'''
-나보다 큰거밖에 없으면 엄마상어에게 도움
-1마리면 그 물고기
-더많으면 가장 가까운거
-거리가 같다면 가장 위, 가장 왼쪽 순으로
-
-크기와 같은 수의 물고기를 먹을때마다 1 증가
-
-아기상어 크기는 2
-
-'''
-def bfs(y, x):
-    global eat, baby_power
-
-    q = deque
-
-    for shark in sharks:
-        power, i, j = shark
-
-        if power < baby_power:
-            q.append((i, j))
-
-
 
 n = int(input())
 
-data = [list(map(int, input().split())) for _ in range(n)]
+def find_fish(i, j):
+    global eat, size, ni, nj, count
 
-baby = []
-baby_power = 2
+    q = []
+    heappush(q, (0, i, j))
+
+    visited = [[False] * n for _ in range(n)]
+    visited[i][j] = True
+
+    while q:
+        cnt, y, x = heappop(q)
+        # y, x, cnt = q.popleft()
+
+        if arr[y][x] and arr[y][x] < size:
+            # print("here",y, x, arr[y][x])
+            # print("size", size)
+            eat += 1
+            arr[y][x] = 0
+            count += cnt
+
+            if eat == size:
+                size += 1
+                eat = 0
+                # print("size", size)
+
+            find_fish(y, x)
+
+        for dy, dx in ((-1, 0), (0, -1), (0, 1), (1, 0)):
+
+            ny, nx = y+dy, x+dx
+
+            if 0 <= ny < n and 0 <= nx < n and not visited[ny][nx]:
+                if arr[ny][nx] <= size:
+                    heappush(q, (cnt+1, ny, nx))
+                    # q.append((ny, nx, cnt+1))
+                    visited[ny][nx] = True
+
+    return
+
+
+ni, nj = 0, 0
+size = 2
 eat = 0
 
-sharks = []
-# 아기 상어 위치 찾기
-# 다른 상어 위치 표기
-for i in range(n):
-    for j in range(n):
-        if data[i][j] == 9:
-            baby = (i, j)
-        elif data[i][j]:
-            sharks.append((data[i][j], i, j))
-sharks.sort()
-print(sharks)
+arr = []
 
-bfs(baby[0], baby[1])
+count = 0
+
+for i in range(n):
+    temp = list(map(int, input().split()))
+    if 9 in temp:
+        ni = i
+        nj = temp.index(9)
+    arr.append(temp)
+
+arr[ni][nj] = 0
+find_fish(ni, nj)
+
+print(count)
 
 
