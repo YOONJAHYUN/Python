@@ -35,7 +35,10 @@ def fish_moving():
                             if orgin_dir == arr[i][j][1]:
                                 break
                     break
-
+        print(idx)
+        for i in arr:
+            print(i)
+        print("**********************************")
         idx += 1
 
 
@@ -66,6 +69,7 @@ sharkDir = arr[0][0][1]
 arr[0][0] = [-1, sharkDir]
 print(arr)
 fish_moving()
+print("########################")
 for i in arr:
     print(*i)
 # print(arr)
