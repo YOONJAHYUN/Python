@@ -1,27 +1,24 @@
 import sys
-
 input = sys.stdin.readline
 
-def decrease_num(depth, idx, num):
+n = int(input())
 
-    if depth == idx:
-        decrease_numbers.append(num)
-        return
+q = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+lst = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-    for i in range(10):
-        if not visited[i]:
-            visited[i] = True
-            decrease_num(depth+1, idx, num)
-            visited[i] = False
+while q:
 
-N = int(input())
+    num = q.pop()
 
-decrease_numbers = []
+    for i in range(int(str(num)[-1])):
+        new = int(str(num)+str(i))
+        lst.append(new)
+        q.append(new)
 
-numbers = list(range(0, 10))
-numbers.sort(reverse=True)
-print(numbers)
-visited = [False] * 10
-decrease_num(0, 1, '')
-print(decrease_numbers)
 
+lst.sort()
+
+try:
+    print(lst[n])
+except:
+    print(-1)
