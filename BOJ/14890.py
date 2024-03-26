@@ -2,56 +2,76 @@ import sys
 input = sys.stdin.readline
 
 n, l = map(int, input().split())
+arr1 = [list(map(int, input().split())) for _ in range(n)]
+arr2 = list(map(list, zip(*arr1)))
+visited = [[False] * n for _ in range(n)]
 
-data = [list(map(int, input().split())) for _ in range(n)]
 
+def check1(i, j, arr):
+    if visited[i][j]:
+        return False
 
-'''
-경사로 설치 조건
-1. 경사로는 낮은 칸에 놓으며 l개의 연속된 칸에 경사로의 바닥이 모두 접해야 함
-2. 낮은 칸과 높은 칸의 높이 차이는 1
-3. 경사로를 높을 낮은 칸의 높이는 모두 같아야함. l개 연속
+    # l만큼 상관없는지 확인
+    for k in range(1, l):
+        if j + k >= n:
+            return False
+        if visited[i][j+k]:
+            return False
 
-'''
+        if arr[i][j + k] != arr[i][j]:
+            return False
 
-def function1(data):
-    global ans
+    for k in range(l):
+        visited[i][j+k] = True
+        # arr[i][j+k] += 1
+    return True
 
-    for i in range(n):
-        if len(set(data[i])) == 1:
-            ans += 1
-        else:
-            ans += check(data[i])
-            print(ans,data[i])
+def check2(i, j, arr):
+    if visited[i][j]:
+        return False
+    # l만큼 상관없는지 확인
+    for k in range(1, l):
+        if j-k < 0:
+            return False
+        if visited[i][j-k]:
+            return False
+        if arr[i][j - k] != arr[i][j]:
+            return False
 
-def check(lst):
-    '''
-    set해서 길이가 1이면 경사로를 놓을 수 있음
-    놓고나서 0번째는 -1과 같아야하고,=> +- 1차이,  l번째는  l+1과 같아야함 동일
-    '''
-
-    i = 0
-
-    while i+l < n:
-
-        now = lst[i:i+l]
-
-        if len(set(now)) == 1:
-            # 경사로를 놓을 수 있음
-            if (i-1 >= 0) and (i+l < n) and ((lst[i] == lst[i-1] and (abs(lst[i+l-1] - lst[i+l]) == 1)) or ((lst[i+l] == lst[i+l-1] and (abs(lst[i] - lst[i-1]) == 1)))):
-                i += l
-            else:
-                i += 1
-        # else:
-        #     return False
-
+    for k in range(l-1):
+        visited[i][j-k] = True
+    #     arr[i][j-k] += 1
     return True
 
 
-ans = 0
+def solution(arr):
+    global answer
+    for i in range(n):
+        for j in range(1, n):
+            # 높이가 전과 같을 경우
+            if arr[i][j] == arr[i][j-1]:
+                continue
+            # 높이 차이가 1인 경우
+            if abs(arr[i][j] - arr[i][j-1]) == 1:
+                temp = check1(i, j, arr) if arr[i][j] < arr[i][j-1] else check2(i, j-1, arr)
+                # 경사로를 못 놓을 경우
+                if not temp:
+                    break
+            else:
+                break
 
-function1(data)
-data = list(map(list, zip(*data)))
-function1(data)
+        else:
+            # print(i, "열")
+            answer += 1
 
-print(ans)
+answer = 0
+solution(arr1)
+
+
+visited = [[False] * n for _ in range(n)]
+solution(arr2)
+
+
+
+print(answer)
+
